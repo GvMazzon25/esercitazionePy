@@ -11,25 +11,43 @@ def csv_reader():
     data = pd.read_csv(file_path)
     return data
 
+#Centralina da cui partono le richieste per l'analisi dei dati
+def data_analizer():
+    data = csv_reader()
+    fatt = fatturato(data)
+    maggiore = piu_venduto(data)
+    print(maggiore)
+    return fatt
+
 
 # Calcolo del fatturato
 def fatturato(data):
     somma = 0
     prezzi_unitari = data['Prezzo_Unitario']
     quantità = data['Quantità']
-    #print(prezzi_unitari)
-    #print(quantità)
+    #Per ogni prezzo e quantità li moltiplica e somma i risultati insieme
     for i in range(len(prezzi_unitari)):
         prezzo_per_quantità = prezzi_unitari[i] * quantità[i]
         somma = somma + prezzo_per_quantità
 
     return somma
 
+def piu_venduto(data):
+    quantità = data['Quantità']
+    maggiore = max(quantità)
+    indice_maggiore = quantità.idxmax()
+    #print(indice_maggiore)
+    id_products = data['ID_Prodotto']
+    prodotto = id_products[indice_maggiore]
+    return prodotto
+
+def spesa_maggiore():
+    print('ciao')
+
 
 def main():
-    data = csv_reader()
-    fatt = fatturato(data)
-    print(fatt)
+    result = data_analizer()
+    print(result)
 
 
 main()
