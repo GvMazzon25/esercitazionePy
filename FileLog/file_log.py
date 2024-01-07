@@ -30,12 +30,29 @@ def read_log():
     return output_data
 
 
+def search_keyword(keyword, file_log):
+    keyword_in_line = {}
+    with open(file_log, 'r') as file:
+        for line_number, line in enumerate(file, 1):  # Enumeriamo le linee e partiamo dalla riga 1
+            if keyword in line:
+                if keyword not in keyword_in_line:
+                    keyword_in_line[keyword] = []  # Inizializziamo una lista vuota per la parola chiave
+                keyword_in_line[keyword].append({'line_number': line_number, 'line_content': line.strip()})
+    return keyword_in_line
+
+
 def main():
     log_data = read_log()  # Ora otteniamo l'output dalla funzione
     for data, (numero_messaggi, messaggi_per_data) in log_data.items():
         print(f"Data: {data}, Numero di messaggi: {numero_messaggi}")
         for messaggio in messaggi_per_data:
             print(messaggio)
+    print('--------')
+    result = search_keyword('X',file_log)
+    for keyword,lines in result.items():
+        print(f"Parola chiave: {keyword}")
+        for entry in lines:
+            print(f"Riga {entry['line_number']}: {entry['line_content']}")
 
 
 main()
